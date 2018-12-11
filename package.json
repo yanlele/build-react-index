@@ -4,7 +4,8 @@
   "description": "react项目构建",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-build": "webpack --config webpack.dev.config.js"
   },
   "repository": {
     "type": "git",

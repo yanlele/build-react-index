@@ -3,7 +3,12 @@
  * create time 2018/12/11 下午4:20
  */
 
-let func = str => {
-    document.getElementById('app').innerHTML = str;
-};
-func('我正在使用babel 打包');
+import React, {Component} from 'react';
+import ReactDom from 'react-dom';
+import getRouter from './router/router';
+
+
+ReactDom.render(
+    getRouter(),
+    document.getElementById('app')
+);
