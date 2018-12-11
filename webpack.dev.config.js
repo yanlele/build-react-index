@@ -13,6 +13,13 @@ module.exports = {
         filename: 'bundle.js'
     },
 
+    devServer: {
+        contentBase: path.join(__dirname, './dist'),
+        port: 8080,         // 端口号
+        historyApiFallback: true,
+        host: '0.0.0.0'
+    },
+
     module: {
         rules: [
             {
