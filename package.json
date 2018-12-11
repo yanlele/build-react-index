@@ -30,6 +30,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "react-hot-loader": "3",
     "webpack": "3",
     "webpack-dev-server": "2"
   }
