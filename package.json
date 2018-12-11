@@ -1,0 +1,19 @@
+{
+  "name": "build-react-index",
+  "version": "0.0.1",
+  "description": "react项目构建",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanlele/build-react-index.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanlele/build-react-index/issues"
+  },
+  "homepage": "https://github.com/yanlele/build-react-index#readme"
+}
