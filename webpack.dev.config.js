@@ -11,5 +11,20 @@ module.exports = {
     output: {
         path: path.join(__dirname, './dist'),
         filename: 'bundle.js'
+    },
+
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                use: {
+                    loader: "babel-loader?cacheDirectory=true",     // 用于缓存打包编译结果， 提升下次编译速度
+                    options: {
+                        cacheDirectory: true,
+                    }
+                },
+                include: path.join(__dirname, 'src')
+            }
+        ]
     }
 };
