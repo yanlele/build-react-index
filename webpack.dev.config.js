@@ -4,18 +4,20 @@
  */
 
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
-module.exports = {
-    entry: [
-        "react-hot-loader/patch",
-        path.join(__dirname, './src/index.js')
-    ],
+const merge = require('webpack-merge');
+const commonConfig = require('./webpack.common.config.js');
 
-    output: {
-        path: path.join(__dirname, './dist'),
-        filename: 'bundle.js'
+const devConfig = {
+    entry: {
+        app: [
+            'react-hot-loader/patch',
+            path.join(__dirname, 'src/index.js')
+        ]
     },
-
+    devtool: 'inline-source-map',
     devServer: {
         contentBase: path.join(__dirname, './dist'),
         port: 8080,         // 端口号
@@ -23,26 +25,68 @@ module.exports = {
         host: '127.0.0.1'
     },
 
-    resolve: {
-        alias: {
-            pages: path.join(__dirname, 'src/pages'),
-            component: path.join(__dirname, 'src/component'),
-            router: path.join(__dirname, 'src/router')
-        }
-    },
-
     module: {
         rules: [
             {
-                test: /\.js$/,
-                use: {
-                    loader: "babel-loader?cacheDirectory=true",     // 用于缓存打包编译结果， 提升下次编译速度
-                    options: {
-                        cacheDirectory: true,
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            singleton: true
+                        }
+                    },
+                    {
+                        loader: 'css-loader',
+                        /*options: {
+                            // minimize: true,
+                            // modules: true,
+                        }*/
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: [
+                                require('autoprefixer')(),
+                                require('cssnano')()
+                            ]
+                        }
                     }
-                },
-                include: path.join(__dirname, 'src')
+                ]
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            singleton: true
+                        }
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: false,
+                            localIdentName: '[path][name]_[local]_[hash:base64:5]'
+                        },
+                        // loader: 'file-loader'
+                    },
+                    {
+                        loader: 'less-loader'
+                    }
+                ]
             }
         ]
     }
 };
+
+module.exports = merge({
+    customizeArray(a, b, key) {
+        /*entry.app不合并，全替换*/
+        if (key === 'entry.app') {
+            return b;
+        }
+        return undefined;
+    }
+})(commonConfig, devConfig);

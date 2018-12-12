@@ -276,5 +276,72 @@ export default store;
 ```
 
 
+## 按需加载
+我们现在看到，打包完后，所有页面只生成了一个build.js,当我们首屏加载的时候，就会很慢。因为他也下载了别的页面的js了哦。                                
+如果每个页面都打包了自己单独的JS，在进入自己页面的时候才加载对应的js，那首屏加载就会快很多哦。                               
+在 react-router 2.0时代， 按需加载需要用到的最关键的一个函数，就是 **require.ensure()** ，它是按需加载能够实现的核心。
+
+在4.0版本，官方放弃了这种处理按需加载的方式，选择了一个更加简洁的处理方式: `bundle-loader`                     
+
+## 缓存
+我们网站上线了，用户第一次访问首页，下载了home.js，第二次访问又下载了home.js~                                  
+这肯定不行呀，所以我们一般都会做一个缓存，用户下载一次home.js后，第二次就不下载了。                                   
+有一天，我们更新了home.js，但是用户不知道呀，用户还是使用本地旧的home.js。出问题了~                                   
+怎么解决？每次代码更新后，打包生成的名字不一样。比如第一次叫home.a.js，第二次叫home.b.js。                              
+
+直接加hash就可以了：                    
+```js
+output: {
+    path: path.join(__dirname, './dist'),
+    filename: '[name].[hash].js',
+    chunkFilename: '[name].[chunkhash].js'
+}
+```
+
+## 生产坏境构建
+开发环境(development)和生产环境(production)的构建目标差异很大。
+在开发环境中，我们需要具有强大的、具有实时重新加载(live reloading)
+或热模块替换(hot module replacement)能力的 source map 和 localhost server。
+而在生产环境中，我们的目标则转向于关注更小的 bundle，更轻量的 source map，以及更优化的资源，以改善加载时间。
+由于要遵循逻辑分离，我们通常建议为每个环境编写彼此独立的 webpack 配置。
+
+## 指定环境
+许多 library 将通过与 process.env.NODE_ENV 环境变量关联，
+以决定 library 中应该引用哪些内容。
+例如，当不处于生产环境中时，某些 library 为了使调试变得容易，可能会添加额外的日志记录(log)和测试(test)。
+其实，当使用 process.env.NODE_ENV === 'production' 时，一些 library 可能针对具体用户的环境进行代码优化，
+从而删除或添加一些重要代码。我们可以使用 webpack 内置的 DefinePlugin 为所有的依赖定义这个变量：
+```js
+module.exports = {
+  plugins: [
+       new webpack.DefinePlugin({
+          'process.env': {
+              'NODE_ENV': JSON.stringify('production')
+           }
+       })
+  ]
+}
+```
+
+
+## 优化缓存
+刚才我们把[name].[hash].js变成[name].[chunkhash].js后，npm run build后，
+发现app.xxx.js和vendor.xxx.js不一样了哦。
+
+但是现在又有一个问题了。                        
+你随便修改代码一处，例如Home.js，随便改变个字，你发现home.xxx.js名字变化的同时，
+vendor.xxx.js名字也变了。这不行啊。这和没拆分不是一样一样了吗？我们本意是vendor.xxx.js
+名字永久不变，一直缓存在用户本地的。~                     
+官方文档推荐了一个插件HashedModuleIdsPlugin                                          
+现在你打包，修改代码再试试，是不是名字不变啦？错了，现在打包，我发现名字还是变了，经过比对文档，我发现还要加一个runtime代码抽取，                            
+```js
+plugins: [
+    new webpack.HashedModuleIdsPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'runtime'
+    })
+]
+```
+**注意，引入顺序在这里很重要。CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入。**
 
 
