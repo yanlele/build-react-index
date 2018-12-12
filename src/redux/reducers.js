@@ -5,7 +5,8 @@
 import {combineReducers} from 'redux';
 
 import counter from './reducers/counter';
-import userInfo from './reducers/userInfo'
+import userInfo from './reducers/userInfo';
+import modal from './reducers/modal';
 
 /*
 export default function combineReducers(state={}, action) {
@@ -19,5 +20,6 @@ export default function combineReducers(state={}, action) {
 
 export default combineReducers({
     userInfo,
-    counter
+    counter,
+    modal
 })

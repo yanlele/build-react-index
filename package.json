@@ -10,7 +10,6 @@
     "build": "webpack --config webpack.config.js",
     "mock": "json-server mock/mock.js --watch --port 8090",
     "mockdev": "npm run mock & npm run dev"
-
   },
   "repository": {
     "type": "git",
@@ -31,6 +30,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "antd": "^3.11.2",
     "autoprefixer": "^9.3.1",
     "babel-core": "^6.26.3",
     "babel-loader": "7",
@@ -57,9 +57,11 @@
     "mockjs": "^1.0.1-beta3",
     "postcss": "^7.0.6",
     "postcss-loader": "^3.0.0",
+    "prop-types": "^15.6.2",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
     "react-hot-loader": "3",
+    "react-router-redux": "^4.0.8",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "webpack": "3",
