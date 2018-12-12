@@ -13,7 +13,7 @@ const commonConfig = require('./webpack.common.config.js');
 const devConfig = {
     output: {
         path: path.join(__dirname, './dist'),
-        filename: '[name].[name].js',       //这里应该用chunkhash替换hash, 但是会跟 --hot 冲突，无奈的妥协
+        filename: '[name].[hash].js',       //这里应该用chunkhash替换hash, 但是会跟 --hot 冲突，无奈的妥协
         chunkFilename: '[name].[chunkhash].js',
         publicPath : '/'
     },
