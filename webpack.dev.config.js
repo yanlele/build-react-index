@@ -11,11 +11,11 @@ const merge = require('webpack-merge');
 const commonConfig = require('./webpack.common.config.js');
 
 const devConfig = {
-    entry: {
-        app: [
-            'react-hot-loader/patch',
-            path.join(__dirname, 'src/index.js')
-        ]
+    output: {
+        path: path.join(__dirname, './dist'),
+        filename: '[name].[name].js',       //这里应该用chunkhash替换hash, 但是会跟 --hot 冲突，无奈的妥协
+        chunkFilename: '[name].[chunkhash].js',
+        publicPath : '/'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -84,7 +84,7 @@ const devConfig = {
 module.exports = merge({
     customizeArray(a, b, key) {
         /*entry.app不合并，全替换*/
-        if (key === 'entry.app') {
+        if (key === 'entry.output') {
             return b;
         }
         return undefined;
