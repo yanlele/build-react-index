@@ -188,6 +188,92 @@ export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 这个地方有一个很坑人的地方， 如果绑定了第二个参数的方法， 那么props 里面就不必注入dispatch了， 如果不绑定props, 才会注入dispatch。
 具体使用方式， 见node-index 项目react部分；                  
 
+这里我们再缕下（可以读React 实践心得：[react-redux 之 connect 方法详解](http://taobaofed.org/blog/2016/08/18/react-redux-connect/)）
+1、Provider组件是让所有的组件可以访问到store。不用手动去传。也不用手动去监听。                          
+2、connect函数作用是从 Redux state 树中读取部分数据，并通过 props 来把这些数据提供给要渲染的组件。也传递dispatch(action)函数到props。                                 
+
+## redux异步处理
+想象一下我们调用一个异步get请求去后台请求数据：                           
+- 请求开始的时候，界面转圈提示正在加载。isLoading置为true。
+- 请求成功，显示数据。isLoading置为false,data填充数据。
+- 请求失败，显示失败。isLoading置为false，显示错误信息。
+
+dist/api/user.json：                     
+```json
+{
+  "name": "brickspert",
+  "intro": "please give me a star"
+}
+```
+
+一声霹雳 redux-thunk 登场， 我们直接使用的redux 中 action 返回的实际上是一个对象； `{type: xxxx}` 这种样子的东西。
+但是我现在用到的大多数业务逻辑中actionCreater 是这么写的：
+```js
+export function getUserInfo() {
+    return function (dispatch) {
+        dispatch(getUserInfoRequest());
+
+        return fetch('http://localhost:8080/api/user.json')
+            .then((response => {
+                return response.json()
+            }))
+            .then((json) => {
+                    dispatch(getUserInfoSuccess(json))
+                }
+            ).catch(
+                () => {
+                    dispatch(getUserInfoFail());
+                }
+            )
+    }
+}
+```
+直接调用action , 返回的是一个函数，而不是一个对象！                          
+为了让action创建函数除了返回action对象外，还可以返回函数，我们需要引用redux-thunk。                       
+
+这里涉及到redux中间件 `middleware`；                                                    
+简单的说，中间件就是action在到达reducer，先经过中间件处理。
+我们之前知道reducer能处理的action只有这样的{type:xxx}，所以我们使用中间件来处理
+函数形式的action，把他们转为标准的action给reducer。这是redux-thunk的作用。                            
+其中mapDispatchToProps可以使用react-redux提供的简单写法。
+```js
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {getUserInfo} from "actions/userInfo";
+class UserInfo extends Component {
+    render() {
+        const {userInfo, isLoading, errorMsg} = this.props.userInfo;
+        return (
+            <div>
+                {
+                    isLoading ? '请求信息中......' :
+                        (
+                            errorMsg ? errorMsg :
+                                <div>
+                                    <p>用户信息：</p>
+                                    <p>用户名：{userInfo.name}</p>
+                                    <p>介绍：{userInfo.intro}</p>
+                                </div>
+                        )
+                }
+                <button onClick={() => this.props.getUserInfo()}>请求用户信息</button>
+            </div>
+        )
+    }
+}
+export default connect((state) => ({userInfo: state.userInfo}), {getUserInfo})(UserInfo);
+```
+
+这样做的原因是可以让我们能够返回一个函数，这个函数就可以处理一些列的逻辑功能和数据处理。 
+
+使用方式：src/redux/store.js                                                        
+```js
+import {createStore, applyMiddleware} from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import combineReducers from './reducers.js';
+let store = createStore(combineReducers, applyMiddleware(thunkMiddleware));
+export default store;
+```
 
 
 
