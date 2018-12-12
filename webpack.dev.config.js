@@ -22,7 +22,10 @@ const devConfig = {
         contentBase: path.join(__dirname, './dist'),
         port: 8080,         // 端口号
         historyApiFallback: true,
-        host: '127.0.0.1'
+        host: '127.0.0.1',
+        proxy: {
+            "/api/*": "http://localhost:8090/$1"
+        }
     },
 
     module: {

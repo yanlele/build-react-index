@@ -17,6 +17,7 @@ const Loading = function () {
     return <div>Loading...</div>
 };
 
+// 按需加载
 const createComponent = (component) => (props) => (
     <Bundle load={component}>
         {
@@ -28,21 +29,6 @@ const createComponent = (component) => (props) => (
 const getRouter = () => (
     <Router>
         <div>
-            <ul>
-                <li>
-                    <Link to='/'>首页</Link>
-                </li>
-                <li>
-                    <Link to='/page1'>Page1</Link>
-                </li>
-                <li>
-                    <Link to='/counter'>Counter</Link>
-                </li>
-                <li>
-                    <Link to='/userinfo'>UserInfo</Link>
-                </li>
-            </ul>
-
             <Switch>
                 <Route exact path='/' component={createComponent(Home)}/>
                 <Route path='/page1' component={createComponent(Page1)}/>

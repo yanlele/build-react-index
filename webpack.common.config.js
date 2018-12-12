@@ -11,6 +11,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 commonConfig = {
     entry: {
         app: [
+            "babel-polyfill",
             "react-hot-loader/patch",
             path.join(__dirname, './src/index.js')
         ],
@@ -27,7 +28,7 @@ commonConfig = {
     resolve: {
         alias: {
             pages: path.join(__dirname, 'src/pages'),
-            component: path.join(__dirname, 'src/component'),
+            components: path.join(__dirname, 'src/components'),
             router: path.join(__dirname, 'src/router')
         }
     },

@@ -7,6 +7,7 @@ const apiPath = '/api';
 
 const URLS = {
     'common': apiPath + '/url/',
+    'user-info': apiPath + '/userInfo/'
 };
 let customHeader = {
     'Accept': 'application/json',

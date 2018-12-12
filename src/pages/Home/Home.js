@@ -4,6 +4,7 @@
  */
 
 import React, {Component} from 'react';
+import Nav from '../../components/Nav/Nav';
 
 
 class Home extends Component {
@@ -18,7 +19,9 @@ class Home extends Component {
     render() {
         return (
             <div>
-                this is home  ~<br/>
+                <Nav/>
+                <hr/>
+                this is home  ~~~~~<br/>
                 当前计数： {this.state.count} <br/>
                 <button onClick={this.handleClick}>自增</button>
             </div>
