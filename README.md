@@ -132,4 +132,63 @@ unsubscribe();
 
 [具体示例可以看这里](https://github.com/yanlele/node-index/tree/master/book/01%E3%80%81react%E4%B8%93%E9%A2%98/02%E3%80%81redux/04%E3%80%81redux)
 
+## react-redux
+下一步，我们让Counter组件和Redux联合起来。使Counter能获得到Redux的state，并且能发射action。                     
+当然我们可以使用刚才测试testRedux的方法，手动监听~手动引入store~但是这肯定很麻烦哦。
+
+react-redux提供了一个方法 **connect**。
+容器组件就是使用 store.subscribe() 从 Redux state 树中读取部分数据，并通过 props 来把这些数据提供给要渲染的组件。
+你可以手工来开发容器组件，但建议使用 React Redux 库的 connect() 方法来生成，
+这个方法做了性能优化来避免很多不必要的重复渲染。
+
+connect接收两个参数，一个mapStateToProps,就是把redux的state，转为组件的Props，还有一个参数是mapDispatchToprops,
+就是把发射actions的方法，转为Props属性函数。
+```js
+import React, {Component} from 'react';
+import {increment, decrement, reset} from 'actions/counter';
+
+import {connect} from 'react-redux';
+
+class Counter extends Component {
+    render() {
+        return (
+            <div>
+                <div>当前计数为{this.props.counter.count}</div>
+                <button onClick={() => this.props.increment()}>自增
+                </button>
+                <button onClick={() => this.props.decrement()}>自减
+                </button>
+                <button onClick={() => this.props.reset()}>重置
+                </button>
+            </div>
+        )
+    }
+}
+const mapStateToProps = (state) => {
+    return {
+        counter: state.counter
+    }
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        increment: () => {
+            dispatch(increment())
+        },
+        decrement: () => {
+            dispatch(decrement())
+        },
+        reset: () => {
+            dispatch(reset())
+        }
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+```
+其实我在项目开发中， 通常是没有用到第二个参数的， 我们可以直接在方法中通过props, 就可以拿到dispatch函数， 然后通过dispatch直接调用action 的方式；
+这个地方有一个很坑人的地方， 如果绑定了第二个参数的方法， 那么props 里面就不必注入dispatch了， 如果不绑定props, 才会注入dispatch。
+具体使用方式， 见node-index 项目react部分；                  
+
+
+
+
 
