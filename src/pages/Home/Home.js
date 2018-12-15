@@ -5,6 +5,7 @@
 
 import React, {Component} from 'react';
 import Nav from '../../components/Nav/Nav';
+import {Button} from 'antd';
 
 
 class Home extends Component {
@@ -23,7 +24,8 @@ class Home extends Component {
                 <hr/>
                 this is home  ~~~~~<br/>
                 当前计数： {this.state.count} <br/>
-                <button onClick={this.handleClick}>自增</button>
+                <Button type="primary" onClick={this.handleClick}>自增</Button>
+
             </div>
         )
     }
