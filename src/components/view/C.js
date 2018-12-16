@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import A from "components/view/A";
 
+@A
 class C extends Component {
     render() {
         return (
@@ -17,4 +18,4 @@ class C extends Component {
     }
 }
 
-export default A(C)
+export default C
