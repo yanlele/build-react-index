@@ -5,7 +5,6 @@
  */
 
 import React, {Component} from 'react';
-
 function A(WrappedComponent) {
     return class A extends Component {
         render() {
@@ -19,5 +18,4 @@ function A(WrappedComponent) {
         }
     }
 }
-
 export default A;

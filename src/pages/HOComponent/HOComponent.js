@@ -13,7 +13,6 @@ class HOComponent extends Component {
         return (
             <div>
                 <h2>我是高阶组件</h2>
-
                 <B />
                 <hr/>
                 <C />
@@ -21,5 +20,4 @@ class HOComponent extends Component {
         )
     }
 }
-
 export default HOComponent;
