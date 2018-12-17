@@ -27,6 +27,8 @@ class Home extends Component {
                 当前计数： {this.state.count} <br/>
                 <Button type="primary" onClick={this.handleClick}>自增</Button>
                 <Button type="danger" onClick={this.handleDown}>自减</Button>
+                <br/>
+                <Button type="ghost">ghost</Button>
             </div>
         )
     }
