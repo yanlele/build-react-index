@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
+@connect(mapStateToProps, mapDispatchToProps)
 class Counter extends Component {
     constructor(props) {
         super(props);
@@ -55,4 +56,4 @@ class Counter extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Counter);
+export default Counter;
