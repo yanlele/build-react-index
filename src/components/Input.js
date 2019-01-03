@@ -4,7 +4,7 @@
  */
 
 import React, {Component} from 'react';
-import {Input} from 'antd';
+import {Input, Icon} from 'antd';
 
 class MyInput extends Component {
     constructor() {
@@ -19,6 +19,7 @@ class MyInput extends Component {
                     onChange={(e)=>{
                         this.props.onChange(e.target.value);
                     }}
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     defaultValue={this.props.value}
                     placeholder="Username" />
             </div>

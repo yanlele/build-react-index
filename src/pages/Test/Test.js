@@ -18,7 +18,7 @@ class HorizontalLoginForm extends React.Component {
                 username: 'yanle',
                 password: '123123',
             }
-        }
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -29,7 +29,7 @@ class HorizontalLoginForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state.defaultValue)
+        console.log(this.state.defaultValue);
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
@@ -54,10 +54,10 @@ class HorizontalLoginForm extends React.Component {
                     help={userNameError || ''}
                 >
                     {getFieldDecorator('userName', {
-                        rules: [{ required: true, message: 'Please input your username!' }],
+                        rules: [{required: true, message: 'Please input your username!'}],
                         initialValue: defaultValue.username
                     })(
-                        <MyInput />
+                        <MyInput/>
                     )}
                 </Form.Item>
                 <Form.Item
@@ -65,10 +65,12 @@ class HorizontalLoginForm extends React.Component {
                     help={passwordError || ''}
                 >
                     {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
+                        rules: [{required: true, message: 'Please input your Password!'}],
                         initialValue: defaultValue.password
                     })(
-                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                        <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                               type="password"
+                               placeholder="Password"/>
                     )}
                 </Form.Item>
                 <Form.Item>
