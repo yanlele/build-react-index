@@ -1,91 +1,92 @@
 import React from 'react';
+import { Formik } from 'formik';
 
-import MyInput from 'components/Input';
+const Basic = () => (
+    <div>
+        <h1>My Form</h1>
+        <p>This can be anywhere in your application</p>
+        {/*
+          The benefit of the render prop approach is that you have full access to React's
+          state, props, and composition model. Thus there is no need to map outer props
+          to values...you can just set the initial values, and if they depend on props / state
+          then--boom--you can directly access to props / state.
+          The render prop accepts your inner form component, which you can define separately or inline
+          totally up to you:
+          - `<Formik render={props => <form>...</form>}>`
+          - `<Formik component={InnerForm}>`
+          - `<Formik>{props => <form>...</form>}</Formik>` (identical to as render, just written differently)
+        */}
+        <Formik
+            initialValues={{
+                email: '',
+                password: '',
+            }}
+            validate={values => {
+                // same as above, but feel free to move this into a class method now.
+                let errors = {};
+                if (!values.email) {
+                    errors.email = 'Required';
+                } else if (
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+                ) {
+                    errors.email = 'Invalid email address';
+                }
+                return errors;
+            }}
+            onSubmit={(
+                values,
+                { setSubmitting, setErrors /* setValues and other goodies */ }
+            ) => {
+                console.log('submit: ', values);
+                /*LoginToMyApp(values).then(
+                    user => {
+                        setSubmitting(false);
+                        // do whatevs...
+                        // props.updateUser(user)
+                    },
+                    errors => {
+                        setSubmitting(false);
+                        // Maybe transform your API's errors into the same shape as Formik's
+                        setErrors(transformMyApiErrors(errors));
+                    }
+                );*/
+            }}
+            render={({
+                         values,
+                         errors,
+                         touched,
+                         handleChange,
+                         handleBlur,
+                         handleSubmit,
+                         isSubmitting,
+                     }) => {
+                console.log(touched);
+                return (
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="email"
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                        />
+                        {touched.email && errors.email && <div>{errors.email}</div>}
+                        <input
+                            type="password"
+                            name="password"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.password}
+                        />
+                        {touched.password && errors.password && <div>{errors.password}</div>}
+                        <button type="submit" disabled={isSubmitting}>
+                            Submit
+                        </button>
+                    </form>
+                )
+            }}
+        />
+    </div>
+);
 
-import {
-    Form, Icon, Input, Button,
-} from 'antd';
-
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
-
-class HorizontalLoginForm extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            defaultValue: {
-                username: 'yanle',
-                password: '123123',
-            }
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        // To disabled submit button at the beginning.
-        this.props.form.validateFields();
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(this.state.defaultValue);
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-    };
-
-    render() {
-        const {
-            getFieldDecorator, getFieldsError, getFieldError, isFieldTouched,
-        } = this.props.form;
-
-        const {defaultValue} = this.state;
-        console.log('defaultValue', defaultValue);
-        // Only show error after a field is touched.
-        const userNameError = isFieldTouched('userName') && getFieldError('userName');
-        const passwordError = isFieldTouched('password') && getFieldError('password');
-        return (
-            <Form layout="inline" onSubmit={this.handleSubmit}>
-                <Form.Item
-                    validateStatus={userNameError ? 'error' : ''}
-                    help={userNameError || ''}
-                >
-                    {getFieldDecorator('userName', {
-                        rules: [{required: true, message: 'Please input your username!'}],
-                        initialValue: defaultValue.username
-                    })(
-                        <MyInput/>
-                    )}
-                </Form.Item>
-                <Form.Item
-                    validateStatus={passwordError ? 'error' : ''}
-                    help={passwordError || ''}
-                >
-                    {getFieldDecorator('password', {
-                        rules: [{required: true, message: 'Please input your Password!'}],
-                        initialValue: defaultValue.password
-                    })(
-                        <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                               type="password"
-                               placeholder="Password"/>
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    <Button
-                        type="primary"
-                        htmlType="submit"
-                        disabled={hasErrors(getFieldsError())}
-                    >
-                        Log in
-                    </Button>
-                </Form.Item>
-            </Form>
-        );
-    }
-}
-
-
-export default Form.create()(HorizontalLoginForm);
+export default Basic;
