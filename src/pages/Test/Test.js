@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import TestUseCallback from './TestUseCallback';
+import TextInputWithFocusButton from './TextInputWithFocusButton';
 
 function Example() {
     const [num, setNum] = useState([1, 2, 3]);
@@ -12,6 +13,7 @@ function Example() {
                 click me
             </button>
             <TestUseCallback num={num}/>
+            <TextInputWithFocusButton/>
         </div>
     )
 }
