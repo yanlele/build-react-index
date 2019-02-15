@@ -1,81 +1,18 @@
-import React from 'react';
-import {Field, Form, Formik} from 'formik';
+import React, {useState, useEffect} from 'react';
+import TestUseCallback from './TestUseCallback';
 
-const EditUserDialog = ({user, updateUser, onClose}) => {
+function Example() {
+    const [num, setNum] = useState([1, 2, 3]);
+    const handleClick = () => {
+        setNum(num.map((item)=> item * 2));
+    };
     return (
-        <div onClose={onClose}>
-            <h1>Edit User</h1>
-            <Formik
-                initialValues={user /** { email, social } */}
-                onSubmit={(values, actions) => {
-                    console.log(values);
-                    setTimeout(()=> actions.setSubmitting(false), 2000);
-                    /*CallMyApi(user.id, values).then(
-                        updatedUser => {
-                            actions.setSubmitting(false);
-                            updateUser(updatedUser), onClose();
-                        },
-                        error => {
-                            actions.setSubmitting(false);
-                            actions.setErrors(transformMyAPIErrorToAnObject(error));
-                        }
-                    );*/
-                }}
-                render={({errors, touched, isSubmitting}) => (
-                    <Form>
-                        <Field type="id" name="id"/>
-                        {errors.id && <div>{errors.id}</div>} <br/>
-                        <Field type="text" name="email"/>
-                        {errors.email && touched.email && <div>{errors.email}</div>} <br/>
-                        <Field type="text" name="social.facebook"/>
-                        {errors.social && errors.social.facebook &&
-                        touched.facebook && <div>{errors.social.facebook}</div>} <br/>
-                        <Field type="text" name="social.twitter"/>
-                        {errors.social && errors.social.twitter &&
-                        touched.social.twitter && <div>{errors.social.twitter}</div>} <br/>
-                        <button type="submit" disabled={isSubmitting}>
-                            Submit
-                        </button>
-                    </Form>
-                )}
-            />
+        <div>
+            <button onClick={handleClick}>
+                click me
+            </button>
+            <TestUseCallback num={num}/>
         </div>
-    );
-};
-
-
-class Test extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: {
-                id: '',
-                email: '',
-                social: {
-                    facebook: '',
-                    twitter: '',
-                }
-            }
-        }
-    };
-
-    handleUpdateUser = (user) => {
-        this.setState({
-            user
-        })
-    };
-
-    render() {
-        console.log(this.state.user);
-        return (
-            <div>
-                {EditUserDialog({
-                    user: this.state.user,
-                    updateUser: this.handleUpdateUser
-                })}
-            </div>
-        )
-    }
+    )
 }
-
-export default Test;
+export default Example;
