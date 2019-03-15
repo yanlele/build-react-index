@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import './Page1.css';
 import './Page1.less';
-import img1 from './img/testimg.jpeg';
+import img1 from '../../img/testimg.jpeg';
 
 class Page1 extends Component {
     render() {

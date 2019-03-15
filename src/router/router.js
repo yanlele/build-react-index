@@ -13,7 +13,7 @@ import Page1 from 'bundle-loader?lazy&name=page1!../pages/Page1/Page1';
 import Counter from 'bundle-loader?lazy&name=counter!../pages/Counter/Counter';
 import UserInfo from "bundle-loader?lazy&name=userInfo!../pages/UserInfo/UserInfo";
 import HOComponent from "bundle-loader?lazy&name=HOComponent!../pages/HOComponent/HOComponent";
-import Test from 'bundle-loader?lazy&name=HOComponent!../pages/Test/Test'
+import Test from 'bundle-loader?lazy&name=HOComponent!../pages/Test'
 
 const Loading = function () {
     return <div>Loading...</div>
