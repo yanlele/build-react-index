@@ -2,8 +2,10 @@
 
 exports[`Link 正确的快照 1`] = `
 <a
-  class="normal"
+  className="normal"
   href="http://www.facebook.com"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   facebook
 </a>
@@ -11,8 +13,10 @@ exports[`Link 正确的快照 1`] = `
 
 exports[`Link 这个是正确的快照更改 1`] = `
 <a
-  class="normal"
+  className="normal"
   href="http://www.yanleweb.com"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   yanlelele
 </a>
