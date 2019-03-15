@@ -14,10 +14,10 @@ class Page1 extends Component {
             <div>
                 this is page1
                 <p className="page-box">
-                    12312312313
+                    321
                 </p>
                 <p className="less-style">
-                    ldhsvsldvnsldkvnwl
+                    123
                 </p>
                 <img src={img1} alt=""/>
 

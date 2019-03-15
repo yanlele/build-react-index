@@ -4,7 +4,7 @@
   "description": "react项目构建",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config=jest.config.js --notify --watchman=false --detectOpenHandles",
     "dev-build": "webpack --config webpack.dev.config.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js --color --progress --open --hot",
     "build": "webpack --config webpack.config.js",
@@ -22,11 +22,18 @@
   },
   "homepage": "https://github.com/yanlele/build-react-index#readme",
   "dependencies": {
+    "@types/jest": "^24.0.11",
+    "babel-jest": "^22.0.0",
     "babel-plugin-import": "^1.11.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "enzyme-to-json": "^3.3.5",
+    "jest": "^24.5.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
+    "react-test-renderer": "^16.8.4",
     "redux": "3",
     "redux-thunk": "^2.3.0"
   },
