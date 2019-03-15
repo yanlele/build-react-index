@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link 正确的快照 1`] = `
+<a
+  class="normal"
+  href="http://www.facebook.com"
+>
+  facebook
+</a>
+`;
+
+exports[`Link 这个是正确的快照更改 1`] = `
+<a
+  class="normal"
+  href="http://www.yanleweb.com"
+>
+  yanlelele
+</a>
+`;
+
+exports[`Link 这种时候，快照就要报错了 1`] = `
+Object {
+  "createAt": Any<Date>,
+  "id": Any<Number>,
+  "name": "yanle",
+}
+`;
